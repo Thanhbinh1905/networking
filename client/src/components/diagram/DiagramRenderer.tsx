@@ -11,6 +11,8 @@ import {
 import "@xyflow/react/dist/style.css";
 import { Play, RotateCcw, SkipBack, SkipForward } from "lucide-react";
 import { useMemo } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import type { DiagramStep } from "@/data/diagrams";
 import { CustomEdge } from "./CustomEdge";
 import { CustomNode, type CustomNodeData } from "./CustomNode";
@@ -59,7 +61,9 @@ export function DiagramRenderer({
 				animated: step?.activeEdges?.includes(edge.id) || false,
 				style: {
 					...edge.style,
-					stroke: step?.activeEdges?.includes(edge.id) ? "#1c1c1c" : "#eceae4",
+					stroke: step?.activeEdges?.includes(edge.id)
+						? "var(--primary)"
+						: "var(--border)",
 					strokeWidth: step?.activeEdges?.includes(edge.id) ? 3 : 2,
 				},
 			})),
@@ -67,7 +71,7 @@ export function DiagramRenderer({
 	);
 
 	return (
-		<div className="w-full h-full bg-cream">
+		<div className="h-full w-full bg-card">
 			<ReactFlow
 				nodes={nodes}
 				edges={edges}
@@ -76,62 +80,65 @@ export function DiagramRenderer({
 				fitView
 				colorMode="light"
 			>
-				<Background color="#eceae4" gap={20} />
-				<Controls className="bg-cream border-border-subtle shadow-sm" />
+				<Background color="var(--border)" gap={20} />
+				<Controls className="border bg-card shadow-level-2" />
 
 				{steps.length > 0 && (
 					<Panel
 						position="bottom-center"
-						className="bg-cream p-5 rounded-xl shadow-focus border border-border-subtle flex flex-col gap-3 min-w-[360px] mb-8"
+						className="mb-8 flex min-w-[360px] flex-col gap-3 rounded-lg border bg-card p-5 shadow-level-5"
 					>
 						<div className="flex items-center justify-between">
-							<span className="text-[10px] font-bold uppercase text-muted tracking-widest">
+							<Badge variant="secondary" className="font-mono">
 								Step {currentStep + 1} of {steps.length}
-							</span>
-							<span className="text-sm font-semibold text-charcoal">
+							</Badge>
+							<span className="text-body-sm font-medium text-foreground">
 								{steps[currentStep].label}
 							</span>
 						</div>
 
-						<p className="text-xs text-charcoal-82 leading-relaxed min-h-[40px]">
+						<p className="min-h-[40px] text-body-sm text-muted-foreground">
 							{steps[currentStep].description}
 						</p>
 
 						<div className="flex items-center justify-center gap-4 pt-2">
-							<button
+							<Button
 								type="button"
+								variant="ghost"
+								size="icon"
 								onClick={() => onStepChange(0)}
 								disabled={currentStep === 0}
-								className="p-2 hover:bg-charcoal/5 rounded-md disabled:opacity-20 transition-colors text-charcoal"
 								title="Restart"
 							>
-								<RotateCcw className="w-4 h-4" />
-							</button>
-							<button
+								<RotateCcw />
+							</Button>
+							<Button
 								type="button"
+								variant="ghost"
+								size="icon"
 								onClick={() => onStepChange(Math.max(0, currentStep - 1))}
 								disabled={currentStep === 0}
-								className="p-2 hover:bg-charcoal/5 rounded-md disabled:opacity-20 transition-colors text-charcoal"
 							>
-								<SkipBack className="w-4 h-4" />
-							</button>
-							<button
+								<SkipBack />
+							</Button>
+							<Button
 								type="button"
-								className="bg-charcoal text-off-white p-2.5 rounded-full hover:opacity-90 transition-all btn-inset-shadow shadow-md active:scale-95"
+								size="icon-lg"
 								onClick={() => onStepChange((currentStep + 1) % steps.length)}
 							>
-								<Play className="w-5 h-5 fill-current" />
-							</button>
-							<button
+								<Play className="fill-current" />
+							</Button>
+							<Button
 								type="button"
+								variant="ghost"
+								size="icon"
 								onClick={() =>
 									onStepChange(Math.min(steps.length - 1, currentStep + 1))
 								}
 								disabled={currentStep === steps.length - 1}
-								className="p-2 hover:bg-charcoal/5 rounded-md disabled:opacity-20 transition-colors text-charcoal"
 							>
-								<SkipForward className="w-4 h-4" />
-							</button>
+								<SkipForward />
+							</Button>
 						</div>
 					</Panel>
 				)}

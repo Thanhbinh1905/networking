@@ -58,11 +58,9 @@ export function CustomNode({
 	return (
 		<div
 			className={cn(
-				"px-5 py-3 rounded-xl bg-cream border border-border-subtle flex flex-col items-center min-w-[120px] transition-all duration-300",
-				selected
-					? "border-charcoal/40 ring-1 ring-charcoal/5 shadow-focus"
-					: "",
-				data.active && "border-charcoal ring-2 ring-charcoal/5 scale-105 z-10",
+				"flex min-w-[120px] flex-col items-center rounded-lg border bg-card px-5 py-3 shadow-level-2 transition-all duration-300",
+				selected && "border-ring ring-1 ring-ring/30",
+				data.active && "scale-105 border-primary ring-2 ring-ring/30",
 			)}
 		>
 			<Handle
@@ -90,35 +88,31 @@ export function CustomNode({
 
 			<Icon
 				className={cn(
-					"w-7 h-7 mb-2.5 transition-colors",
-					data.active ? "text-charcoal" : "text-charcoal/40",
+					"mb-2.5 size-7 transition-colors",
+					data.active ? "text-primary" : "text-muted-foreground",
 				)}
 			/>
 			<div
 				className={cn(
-					"text-xs font-semibold tracking-tight transition-colors",
-					data.active ? "text-charcoal" : "text-charcoal/83",
+					"text-body-sm font-medium transition-colors",
+					data.active ? "text-foreground" : "text-muted-foreground",
 				)}
 			>
 				{data.label}
 			</div>
 
 			{(data.ip || data.mac) && (
-				<div className="mt-3 w-full text-[9px] text-muted flex flex-col gap-1.5 border-t border-border-subtle pt-3 font-mono leading-none">
+				<div className="mt-3 flex w-full flex-col gap-1.5 border-t pt-3 text-caption-mono text-muted-foreground">
 					{data.ip && (
 						<div className="flex justify-between gap-2">
-							<span className="opacity-40 uppercase tracking-tighter font-bold">
-								IP
-							</span>
-							<span className="text-charcoal/60">{data.ip}</span>
+							<span className="text-muted-foreground/70">IP</span>
+							<span>{data.ip}</span>
 						</div>
 					)}
 					{data.mac && (
 						<div className="flex justify-between gap-2">
-							<span className="opacity-40 uppercase tracking-tighter font-bold">
-								MAC
-							</span>
-							<span className="text-charcoal/60">{data.mac}</span>
+							<span className="text-muted-foreground/70">MAC</span>
+							<span>{data.mac}</span>
 						</div>
 					)}
 				</div>

@@ -13,6 +13,18 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { DiagramRenderer } from "@/components/diagram/DiagramRenderer";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { conceptContent } from "@/data/conceptContent";
 import { concepts } from "@/data/concepts";
 import { getDiagramForConcept } from "@/data/diagrams";
@@ -39,7 +51,6 @@ export default function ConceptPage({
 
 	const concept = concepts.find((c) => c.slug === slug);
 
-	// Reset step when navigating to a new concept
 	useEffect(() => {
 		setCurrentStep(0);
 	}, []);
@@ -56,92 +67,83 @@ export default function ConceptPage({
 	const nextConcept =
 		currentIndex < concepts.length - 1 ? concepts[currentIndex + 1] : null;
 
+	const layer =
+		concept.order <= 4
+			? "Link Layer (L2)"
+			: concept.order <= 14
+				? "Network Layer (L3)"
+				: "Transport/App Layer";
+
 	return (
-		<div className="flex flex-col h-full bg-cream">
-			{/* Header */}
-			<header className="flex-none p-8 lg:px-12 border-b border-border-subtle bg-cream z-10">
-				<div className="flex justify-between items-start">
-					<div>
-						<div className="flex items-center gap-4 mb-2">
-							<span className="text-[10px] font-bold text-muted uppercase tracking-widest bg-charcoal/5 px-2 py-0.5 rounded">
+		<div className="flex h-full flex-col bg-background">
+			<header className="flex-none border-b bg-card px-8 py-6 lg:px-12">
+				<div className="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
+					<div className="flex max-w-3xl flex-col gap-3">
+						<div className="flex flex-wrap items-center gap-3">
+							<Badge variant="secondary" className="font-mono">
 								Concept {concept.order}
-							</span>
-							<h1 className="text-3xl font-semibold tracking-tight text-charcoal">
-								{concept.title}
-							</h1>
+							</Badge>
+							<Badge variant="outline" className="font-mono">
+								{layer}
+							</Badge>
 						</div>
-						<p className="text-muted leading-relaxed max-w-2xl">
-							{concept.summary}
-						</p>
+						<div className="flex flex-col gap-2">
+							<h1 className="text-display-lg text-foreground">
+								{concept.title}.
+							</h1>
+							<p className="text-body-md text-muted-foreground">
+								{concept.summary}
+							</p>
+						</div>
 					</div>
+
 					<div className="flex items-center gap-3">
-						<button
+						<Button
 							type="button"
+							variant={isBookmarked ? "default" : "outline"}
+							size="icon-lg"
 							onClick={() => toggleBookmark(concept.id)}
-							className={cn(
-								"p-2.5 border border-charcoal-40 rounded-md transition-all duration-200",
-								isBookmarked
-									? "bg-charcoal text-off-white btn-inset-shadow"
-									: "text-charcoal hover:bg-charcoal/3",
-							)}
 							title="Bookmark"
 						>
 							<Bookmark
-								className={cn("w-5 h-5", isBookmarked && "fill-current")}
+								data-icon="inline-start"
+								className={cn(isBookmarked && "fill-current")}
 							/>
-						</button>
-						<button
+						</Button>
+						<Button
 							type="button"
+							variant={isCompleted ? "default" : "outline"}
+							size="lg"
 							onClick={() => toggleCompletion(concept.id)}
-							className={cn(
-								"flex items-center gap-2 px-5 py-2.5 rounded-md font-medium transition-all duration-200",
-								isCompleted
-									? "bg-charcoal text-off-white btn-inset-shadow"
-									: "border border-charcoal-40 text-charcoal hover:bg-charcoal/3",
-							)}
 						>
-							<CheckCircle2
-								className={cn("w-5 h-5", isCompleted && "text-off-white")}
-							/>
-							{isCompleted ? "Completed" : "Mark Complete"}
-						</button>
+							<CheckCircle2 data-icon="inline-start" />
+							{isCompleted ? "Completed" : "Mark complete"}
+						</Button>
 					</div>
 				</div>
 
-				<div className="flex gap-1 mt-8 bg-charcoal/3 p-1 rounded-lg w-fit">
-					<button
-						type="button"
-						onClick={() => setViewMode("beginner")}
-						className={cn(
-							"flex items-center gap-2 px-4 py-1.5 text-sm font-medium rounded-md transition-all",
-							viewMode === "beginner"
-								? "bg-cream text-charcoal shadow-sm"
-								: "text-muted hover:text-charcoal",
-						)}
-					>
-						<BookOpen className="w-4 h-4" />
-						Beginner
-					</button>
-					<button
-						type="button"
-						onClick={() => setViewMode("developer")}
-						className={cn(
-							"flex items-center gap-2 px-4 py-1.5 text-sm font-medium rounded-md transition-all",
-							viewMode === "developer"
-								? "bg-cream text-charcoal shadow-sm"
-								: "text-muted hover:text-charcoal",
-						)}
-					>
-						<Code className="w-4 h-4" />
-						Developer
-					</button>
-				</div>
+				<Tabs
+					value={viewMode}
+					onValueChange={(value) =>
+						setViewMode(value as "beginner" | "developer")
+					}
+					className="mt-8"
+				>
+					<TabsList>
+						<TabsTrigger value="beginner">
+							<BookOpen data-icon="inline-start" />
+							Beginner
+						</TabsTrigger>
+						<TabsTrigger value="developer">
+							<Code data-icon="inline-start" />
+							Developer
+						</TabsTrigger>
+					</TabsList>
+				</Tabs>
 			</header>
 
-			{/* Main Content Area */}
-			<div className="flex-1 p-8 lg:p-12 flex flex-col xl:flex-row gap-12 overflow-hidden">
-				{/* Visualizer */}
-				<div className="flex-1 xl:w-2/3 h-[500px] xl:h-full min-h-0 relative rounded-2xl border border-border-subtle bg-cream overflow-hidden">
+			<div className="flex min-h-0 flex-1 flex-col gap-8 overflow-hidden p-8 lg:p-12 xl:flex-row">
+				<Card className="min-h-[500px] flex-1 overflow-hidden bg-card p-0 shadow-level-3 xl:w-2/3">
 					<DiagramRenderer
 						initialNodes={diagram.nodes}
 						initialEdges={diagram.edges}
@@ -149,121 +151,127 @@ export default function ConceptPage({
 						currentStep={currentStep}
 						onStepChange={setCurrentStep}
 					/>
-				</div>
+				</Card>
 
-				{/* Explanation Panel */}
-				<div className="w-full xl:w-1/3 xl:h-full overflow-y-auto pr-4 custom-scrollbar space-y-10">
-					<section>
-						<h3 className="text-xl font-semibold flex items-center gap-2.5 mb-5 text-charcoal">
-							<Info className="w-5 h-5 text-charcoal/40" />
-							How It Works
-						</h3>
-						<div
-							className={cn(
-								"text-charcoal-82 leading-relaxed max-w-none space-y-4",
-								viewMode === "developer" ? "text-sm" : "text-base",
-							)}
-						>
-							{viewMode === "beginner" ? (
-								<>
-									<p>{content?.beginner}</p>
-									<p>
-										Use the diagram steps to follow the exact handoff: which
-										device starts, which connection carries the message, and
-										what decision happens before the next hop.
-									</p>
-								</>
-							) : (
-								<>
-									<div className="font-mono bg-charcoal/3 p-4 rounded-lg border border-border-subtle text-xs mb-6">
-										{`// Technical Definition: ${concept.title}`}
-										<br />
-										Layer:{" "}
-										{concept.order <= 4
-											? "Link Layer (L2)"
-											: concept.order <= 14
-												? "Network Layer (L3)"
-												: "Transport/App Layer"}
+				<ScrollArea className="min-h-0 w-full xl:h-full xl:w-1/3">
+					<div className="flex flex-col gap-6 pr-4 pb-12">
+						<Card className="shadow-level-2">
+							<CardHeader>
+								<CardTitle className="flex items-center gap-2 text-display-sm">
+									<Info className="text-muted-foreground" />
+									How it works.
+								</CardTitle>
+								<CardDescription>
+									The copy follows the selected explanation depth.
+								</CardDescription>
+							</CardHeader>
+							<CardContent className="flex flex-col gap-4 text-body-md text-muted-foreground">
+								{viewMode === "beginner" ? (
+									<>
+										<p>{content?.beginner}</p>
+										<p>
+											Use the diagram steps to follow the exact handoff: which
+											device starts, which connection carries the message, and
+											what decision happens before the next hop.
+										</p>
+									</>
+								) : (
+									<>
+										<div className="rounded-md border bg-muted p-4 text-code text-foreground">
+											{`// Technical Definition: ${concept.title}`}
+											<br />
+											Layer: {layer}
+										</div>
+										<p>{content?.developer}</p>
+										<ul className="flex list-none flex-col gap-2 pl-0">
+											{content?.tips.map((tip) => (
+												<li key={tip} className="flex items-start gap-2">
+													<span className="select-none text-muted-foreground">
+														•
+													</span>
+													{tip}
+												</li>
+											))}
+										</ul>
+									</>
+								)}
+							</CardContent>
+						</Card>
+
+						<Card className="bg-muted shadow-hairline">
+							<CardHeader>
+								<CardTitle className="text-display-sm">
+									Tips and tricks.
+								</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<ul className="flex list-none flex-col gap-2 pl-0 text-body-sm text-muted-foreground">
+									{content?.tips.map((tip) => (
+										<li key={tip} className="flex gap-2">
+											<span className="text-muted-foreground">•</span>
+											<span>{tip}</span>
+										</li>
+									))}
+								</ul>
+							</CardContent>
+						</Card>
+
+						<Card className="bg-primary text-primary-foreground shadow-level-4">
+							<CardHeader>
+								<CardTitle className="flex items-center gap-2 text-display-sm">
+									<Code />
+									Developer toolbox.
+								</CardTitle>
+								<CardDescription className="text-primary-foreground/70">
+									Terminal probes for this layer.
+								</CardDescription>
+							</CardHeader>
+							<CardContent>
+								<div className="flex flex-col gap-3 overflow-x-auto rounded-md border border-primary-foreground/10 bg-primary p-4 text-code">
+									<div className="flex justify-between gap-4 border-b border-primary-foreground/10 pb-2 text-primary-foreground/50">
+										<span>Terminal output</span>
+										<span>bash</span>
 									</div>
-									<p>{content?.developer}</p>
-									<ul className="space-y-2 list-none pl-0">
-										{content?.tips.map((tip) => (
-											<li key={tip} className="flex gap-2 items-start">
-												<span className="text-charcoal/20 select-none">•</span>{" "}
-												{tip}
-											</li>
+									<div className="flex flex-col gap-1">
+										<p className="text-primary-foreground/45">
+											# Investigating {concept.title}
+										</p>
+										{content?.terminal.map((command) => (
+											<p key={command}>$ {command}</p>
 										))}
-									</ul>
-								</>
+									</div>
+								</div>
+							</CardContent>
+						</Card>
+
+						<Separator />
+
+						<nav className="flex items-center justify-between gap-4 pb-6">
+							{prevConcept ? (
+								<Button
+									variant="ghost"
+									render={<Link href={`/concepts/${prevConcept.slug}`} />}
+								>
+									<ArrowLeft data-icon="inline-start" />
+									{prevConcept.title}
+								</Button>
+							) : (
+								<div />
 							)}
-						</div>
-					</section>
-
-					<section className="bg-charcoal/3 p-6 rounded-xl border border-border-subtle">
-						<h4 className="font-semibold text-charcoal mb-3">
-							Tips and Tricks
-						</h4>
-						<ul className="space-y-2 text-sm text-charcoal-82 leading-relaxed">
-							{content?.tips.map((tip) => (
-								<li key={tip} className="flex gap-2">
-									<span className="text-charcoal/30">•</span>
-									<span>{tip}</span>
-								</li>
-							))}
-						</ul>
-					</section>
-
-					<section>
-						<h4 className="font-semibold flex items-center gap-2.5 mb-4 text-charcoal">
-							<Code className="w-5 h-5 text-charcoal/40" />
-							Developer Toolbox
-						</h4>
-						<div className="bg-charcoal text-off-white p-5 rounded-xl font-mono text-[11px] btn-inset-shadow leading-relaxed overflow-x-auto">
-							<div className="flex justify-between mb-4 border-b border-off-white/10 pb-2">
-								<span className="opacity-50 uppercase tracking-widest text-[9px] font-bold">
-									Terminal Output
-								</span>
-								<span className="opacity-50">bash</span>
-							</div>
-							<div className="space-y-1">
-								<p className="opacity-40"># Investigating {concept.title}</p>
-								{content?.terminal.map((command) => (
-									<p key={command} className="text-off-white/90">
-										$ {command}
-									</p>
-								))}
-								<p className="text-off-white/40 mt-4">
-									{/* Diagnostics complete */}
-								</p>
-							</div>
-						</div>
-					</section>
-
-					<nav className="pt-10 flex items-center justify-between border-t border-border-subtle pb-12">
-						{prevConcept ? (
-							<Link
-								href={`/concepts/${prevConcept.slug}`}
-								className="flex items-center gap-2 text-sm font-medium text-muted hover:text-charcoal transition-colors group"
-							>
-								<ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-								{prevConcept.title}
-							</Link>
-						) : (
-							<div />
-						)}
-						{nextConcept ? (
-							<Link
-								href={`/concepts/${nextConcept.slug}`}
-								className="flex items-center gap-2 text-sm font-medium text-muted hover:text-charcoal transition-colors group"
-							>
-								{nextConcept.title}
-								<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-							</Link>
-						) : (
-							<div />
-						)}
-					</nav>
-				</div>
+							{nextConcept ? (
+								<Button
+									variant="ghost"
+									render={<Link href={`/concepts/${nextConcept.slug}`} />}
+								>
+									{nextConcept.title}
+									<ArrowRight data-icon="inline-end" />
+								</Button>
+							) : (
+								<div />
+							)}
+						</nav>
+					</div>
+				</ScrollArea>
 			</div>
 		</div>
 	);

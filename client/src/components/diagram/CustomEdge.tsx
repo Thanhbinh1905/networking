@@ -38,7 +38,7 @@ export function CustomEdge({
 							transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
 							pointerEvents: "all",
 						}}
-						className="nodrag nopan bg-cream px-2 py-1 rounded-md border border-border-subtle shadow-sm text-[10px] font-bold text-charcoal/83 tracking-tight uppercase"
+						className="nodrag nopan rounded-md border bg-card px-2 py-1 text-caption-mono text-muted-foreground shadow-level-2"
 					>
 						{data.label as string}
 					</div>

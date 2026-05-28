@@ -14,8 +14,41 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "Networking Visualizer",
-	description: "Learn networking through interactive visualizations.",
+	metadataBase: new URL("https://networking-indol.vercel.app"),
+	title: {
+		default: "Networking Visualizer",
+		template: "%s | Networking Visualizer",
+	},
+	description:
+		"Learn Ethernet, IP, DNS, TCP, TLS, HTTP, routing, firewalls, VPNs, and load balancers through interactive networking diagrams.",
+	alternates: {
+		canonical: "/",
+	},
+	openGraph: {
+		type: "website",
+		url: "/",
+		siteName: "Networking Visualizer",
+		title: "Networking Visualizer",
+		description:
+			"Interactive networking diagrams for developers learning how packets, routes, protocols, and web requests move across networks.",
+		locale: "en_US",
+		images: [
+			{
+				url: "/opengraph-image",
+				width: 1200,
+				height: 630,
+				alt: "Networking Visualizer interactive networking learning platform",
+			},
+		],
+	},
+	robots: {
+		index: true,
+		follow: true,
+		googleBot: {
+			index: true,
+			follow: true,
+		},
+	},
 };
 
 export default function RootLayout({

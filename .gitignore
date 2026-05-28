@@ -20,3 +20,4 @@ yarn-error.log*
 
 # local agent tooling
 .agents/
+.vercel

@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #f7f4ed;
+  --color-foreground: #1c1c1c;
+
+  --color-cream: #f7f4ed;
+  --color-charcoal: #1c1c1c;
+  --color-off-white: #fcfbf8;
+  --color-muted: #5f5f5d;
+  --color-border-subtle: #eceae4;
+
+  --font-sans: "ui-sans-serif", "system-ui", sans-serif;
+  --font-serif: "ui-serif", "Georgia", serif;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  --shadow-inset-dark:
+    rgba(255, 255, 255, 0.2) 0px 0.5px 0px 0px inset,
+    rgba(0, 0, 0, 0.2) 0px 0px 0px 0.5px inset,
+    rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  --shadow-focus: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+:root {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Utilities for the Design System */
+@layer utilities {
+  .btn-inset-shadow {
+    box-shadow: var(--shadow-inset-dark);
+  }
+
+  .focus-shadow {
+    box-shadow: var(--shadow-focus);
+  }
+
+  .text-charcoal-83 {
+    color: rgba(28, 28, 28, 0.83);
+  }
+
+  .text-charcoal-82 {
+    color: rgba(28, 28, 28, 0.82);
+  }
+
+  .border-charcoal-40 {
+    border-color: rgba(28, 28, 28, 0.4);
+  }
+}

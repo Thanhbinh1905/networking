@@ -1,6 +1,6 @@
 "use client";
 
-import { Bookmark, CheckCircle2, Circle, Network } from "lucide-react";
+import { Bookmark, CheckCircle2, Circle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -17,8 +17,8 @@ export function Sidebar() {
 	return (
 		<aside className="flex h-screen w-72 flex-col border-r bg-sidebar text-sidebar-foreground">
 			<div className="flex h-16 items-center gap-3 px-6">
-				<div className="flex size-8 items-center justify-center rounded-md border bg-card shadow-hairline">
-					<Network className="text-primary" />
+				<div className="flex size-8 items-center justify-center rounded-md border bg-card p-1 shadow-hairline">
+					<img src="/logo.svg" className="h-full w-full object-contain" alt="Logo" />
 				</div>
 				<div className="min-w-0">
 					<h1 className="truncate text-body-sm font-medium">

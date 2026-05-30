@@ -8,7 +8,7 @@ export type ConceptContent = {
 export const conceptContent: Record<string, ConceptContent> = {
 	ethernet: {
 		beginner:
-			"Ethernet moves frames across a local wired network. It defines the local frame format, source and destination MAC addresses, and how bits are carried on copper or fiber.",
+			"The standard for wired connections, using physical cables like copper or fiber optic to carry data between devices.",
 		developer:
 			"Developers see Ethernet indirectly when MTU, VLANs, duplicate MACs, or bad cables cause packet loss before IP troubleshooting even starts.",
 		terminal: [
@@ -23,7 +23,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	"wi-fi": {
 		beginner:
-			"Wi-Fi is Ethernet-like networking over radio through an access point. The client associates with an AP, then the AP bridges traffic into the LAN.",
+			"Does the same job as Ethernet but sends data through the air using radio waves instead of physical cables.",
 		developer:
 			"Wireless adds signal strength, channel contention, roaming, and encryption behavior that can look like random latency to applications.",
 		terminal: [
@@ -38,7 +38,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	"mac-address": {
 		beginner:
-			"A MAC address identifies a network interface on the local link. Switches use destination MAC addresses to decide which port should receive a frame.",
+			"A unique hardware identifier that every network device is born with, used by directly connected devices to recognize each other.",
 		developer:
 			"MAC addresses matter when ARP, switching, VLANs, container bridges, or duplicate virtual NIC addresses break local delivery.",
 		terminal: ["ip link show", "arp -a", "tcpdump -e -i eth0 arp"],
@@ -49,7 +49,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	switch: {
 		beginner:
-			"A switch connects devices inside one LAN and forwards frames using a MAC address table. Unknown destinations are flooded until learned.",
+			"Connects multiple devices on the same local network, reading the destination MAC address on each request to send it only to the correct device.",
 		developer:
 			"Switch behavior explains why two hosts on the same subnet can talk without a router and why loops require STP or loop prevention.",
 		terminal: ["bridge fdb show", "ip neigh show", "tcpdump -i eth0 -e"],
@@ -60,7 +60,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	"ip-address": {
 		beginner:
-			"An IP address identifies a host interface at Layer 3 so packets can be routed across networks. Hosts compare the destination against their subnet before choosing direct delivery or a gateway.",
+			"A logical, assignable address that identifies your device across networks so it can communicate globally.",
 		developer:
 			"IP addressing is the first thing to verify when services cannot reach each other across hosts, containers, VPCs, or Kubernetes nodes.",
 		terminal: ["ip addr show", "ip route get 8.8.8.8", "curl ifconfig.me"],
@@ -71,7 +71,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	"static-ip": {
 		beginner:
-			"A static IP is manually configured and stays stable until changed. It is common for servers, routers, appliances, and infrastructure endpoints.",
+			"An IP address that is manually configured and typed into your device's network settings yourself, staying fixed over time.",
 		developer:
 			"Static addressing removes DHCP dependency but shifts responsibility to humans or infrastructure code to avoid conflicts and stale DNS.",
 		terminal: [
@@ -86,7 +86,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	dhcp: {
 		beginner:
-			"DHCP automatically leases IP settings to a client: address, mask, gateway, DNS, and lease time. The normal exchange is Discover, Offer, Request, Acknowledge.",
+			"Dynamic Host Configuration Protocol automatically assigns an IP address to your device when it joins a network, avoiding manual configuration.",
 		developer:
 			"DHCP issues often show up as 169.254 addresses, missing default routes, wrong DNS servers, or clients renewing old leases.",
 		terminal: [
@@ -101,7 +101,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	subnet: {
 		beginner:
-			"A subnet is an IP range described by a network prefix such as 192.168.1.0/24. Hosts use the subnet mask to decide whether a destination is local.",
+			"Defines the boundary and size of your local network, letting your device know how big or small the local range is.",
 		developer:
 			"Wrong subnet masks create confusing bugs where ARP is attempted for remote hosts or gateway routing is used for local peers.",
 		terminal: [
@@ -116,7 +116,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	router: {
 		beginner:
-			"A router forwards IP packets between different networks. It receives a packet on one interface, chooses a route, and sends it out another interface.",
+			"Connects different networks together. It acts as the exit door of your local network, reading the destination IP to decide where to forward the data next.",
 		developer:
 			"Routers are where subnet boundaries, NAT, ACLs, route tables, and cloud network policies often meet.",
 		terminal: ["ip route", "traceroute 8.8.8.8", "ip route get 10.0.0.50"],
@@ -127,7 +127,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	"default-gateway": {
 		beginner:
-			"The default gateway is the router a host uses when no more specific local route matches. It is usually the way out of the subnet.",
+			"The router that your device falls back on when it doesn't know where to send a packet, letting the gateway figure out the path.",
 		developer:
 			"Missing or wrong gateways cause local traffic to work while internet or cross-subnet traffic fails.",
 		terminal: [
@@ -142,7 +142,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	routes: {
 		beginner:
-			"Routes map destination prefixes to next hops or interfaces. Network stacks use the most specific matching route for each packet.",
+			"Rules defined in routing tables that tell the router exactly where to forward traffic based on the destination IP address.",
 		developer:
 			"Route tables explain split tunnels, private service reachability, container networking, and why traffic exits through an unexpected interface.",
 		terminal: ["ip route", "ip route get 10.20.1.10", "netstat -rn"],
@@ -153,7 +153,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	"static-routing": {
 		beginner:
-			"Static routing uses manually configured route entries instead of dynamic routing protocols. It is predictable but must be maintained on every required path.",
+			"Manually telling the router which path to take to reach a specific network. Simple for small setups but highly complex for large networks.",
 		developer:
 			"Static routes are common in labs, small networks, VPN routes, and cloud route tables, but missing return routes are a frequent failure.",
 		terminal: [
@@ -168,7 +168,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	ospf: {
 		beginner:
-			"OSPF is an internal routing protocol where routers share link-state information and compute shortest paths by cost.",
+			"A routing protocol that allows routers inside the same organization to communicate and dynamically find the best paths automatically.",
 		developer:
 			"OSPF appears in enterprise and data center networks where routers need fast automatic convergence inside one administrative domain.",
 		terminal: [
@@ -183,7 +183,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	bgp: {
 		beginner:
-			"BGP exchanges reachability between autonomous systems. It selects paths using policy attributes such as AS path, local preference, and MED.",
+			"Border Gateway Protocol enables large companies and Internet Service Providers (ISPs) to exchange routing paths, forming the backbone of the internet.",
 		developer:
 			"BGP is the routing control plane of the internet and also powers many cloud, edge, and Kubernetes networking integrations.",
 		terminal: [
@@ -198,7 +198,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	ping: {
 		beginner:
-			"Ping sends ICMP Echo Request packets and waits for Echo Reply packets. It measures reachability, round-trip time, and packet loss.",
+			"Sends a small diagnostic packet to a target destination and waits for a response to confirm if the host is reachable and active.",
 		developer:
 			"Ping is a quick Layer 3 signal, but a successful ping does not prove TCP ports, DNS, TLS, or application health.",
 		terminal: [
@@ -213,7 +213,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	icmp: {
 		beginner:
-			"ICMP carries IP diagnostics and control messages such as Echo, Destination Unreachable, and Time Exceeded.",
+			"The protocol used by Ping and network devices for general diagnostic reports, error messages, and network troubleshooting.",
 		developer:
 			"ICMP explains routing failures, traceroute hops, and path MTU discovery problems that affect application connections.",
 		terminal: ["ping -c 4 1.1.1.1", "traceroute 1.1.1.1", "tcpdump -n icmp"],
@@ -224,7 +224,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	tcp: {
 		beginner:
-			"TCP provides a reliable ordered byte stream using a handshake, sequence numbers, acknowledgments, retransmission, and flow control.",
+			"Establishes a connection between devices before transmitting. It guarantees error-free and in-order packet delivery, but is slower because it waits for confirmations.",
 		developer:
 			"Most app protocols developers use, including HTTP/1.1, HTTP/2, SSH, and PostgreSQL, depend on TCP behavior.",
 		terminal: [
@@ -239,7 +239,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	udp: {
 		beginner:
-			"UDP sends independent datagrams without connection setup or built-in retransmission. It is simple, low overhead, and used when apps handle timing or reliability themselves.",
+			"Sends data immediately without handshakes or delivery confirmations. It is fast and has low overhead, but lost packets are gone forever, making it ideal for streaming and gaming.",
 		developer:
 			"DNS, VoIP, games, telemetry, and QUIC use UDP because they need different tradeoffs than TCP.",
 		terminal: [
@@ -254,7 +254,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	ports: {
 		beginner:
-			"Ports identify a process or service on a host IP. The tuple of protocol, source IP, source port, destination IP, and destination port identifies a flow.",
+			"A number identifier that directs traffic to the correct application process on a device. While IP gets you to the device, the port gets you to the application.",
 		developer:
 			"Port mistakes are a common reason DNS resolves and ping works but the application still fails.",
 		terminal: ["ss -tulpen", "nc -vz host 443", "curl -v http://host:8080"],
@@ -265,7 +265,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	firewall: {
 		beginner:
-			"A firewall allows or blocks traffic based on rules such as source, destination, protocol, port, interface, and connection state.",
+			"Controls which traffic is allowed in and out of a network, blocking or allowing specific ports, IP addresses, or traffic types based on rules.",
 		developer:
 			"Firewalls exist on laptops, servers, cloud security groups, Kubernetes network policies, and perimeter appliances.",
 		terminal: [
@@ -280,7 +280,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	tls: {
 		beginner:
-			"TLS authenticates the server and encrypts application data over a transport connection. Modern HTTPS uses TLS, usually on TCP port 443.",
+			"Encrypts the connection between devices so intermediate attackers cannot read or alter your plain text data. It is the modern successor to SSL.",
 		developer:
 			"TLS failures often involve certificate chains, hostname mismatch, expired certificates, protocol versions, or missing SNI.",
 		terminal: [
@@ -295,7 +295,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	ssl: {
 		beginner:
-			"SSL is the obsolete predecessor name people still use when they usually mean TLS. Modern systems should disable SSLv2 and SSLv3.",
+			"The deprecated, legacy version of TLS. The term is still commonly used today, but modern systems should disable old SSL protocols in favor of TLS.",
 		developer:
 			"When a dashboard says SSL certificate, treat it as certificate/TLS configuration unless it explicitly enables old SSL protocols.",
 		terminal: [
@@ -310,7 +310,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	vpn: {
 		beginner:
-			"A VPN creates an encrypted tunnel from a client or network into another private network. Routes decide which traffic enters the tunnel.",
+			"Creates a secure, encrypted tunnel between your device or network and another private network, protecting all transmitted traffic from outside visibility.",
 		developer:
 			"VPN bugs are often route conflicts, DNS split-horizon issues, MTU problems, or firewall rules on the private side.",
 		terminal: ["ip route", "wg show", "ping -c 3 private-service.local"],
@@ -321,7 +321,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	dns: {
 		beginner:
-			"DNS translates names to records such as A, AAAA, CNAME, MX, and TXT. Recursive resolvers cache answers from authoritative servers.",
+			"Translates human-readable domain names (like google.com) into machine-readable IP addresses so you don't have to memorize numbers.",
 		developer:
 			"DNS issues can masquerade as app failures; always compare name lookup, returned IP, TTL, and direct connection to the IP.",
 		terminal: [
@@ -336,7 +336,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	http: {
 		beginner:
-			"HTTP is an application protocol based on requests and responses: method, URL/path, headers, body, status, and response body.",
+			"The request-response protocol used by browsers to load web assets, enabling you to ask for and receive HTML pages, APIs, and media files.",
 		developer:
 			"HTTP debugging is about what was sent, what status returned, which headers changed behavior, and whether intermediaries modified the request.",
 		terminal: [
@@ -351,7 +351,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	https: {
 		beginner:
-			"HTTPS is HTTP carried inside TLS. It gives confidentiality, integrity, and server authentication for web traffic.",
+			"A secure, encrypted web connection created by combining standard HTTP with TLS encryption.",
 		developer:
 			"For developers, HTTPS combines DNS, TCP, TLS, certificates, HTTP, proxies, and load balancers into one visible URL.",
 		terminal: [
@@ -366,7 +366,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	"load-balancer": {
 		beginner:
-			"A load balancer presents one entry point and distributes traffic across healthy backends. It may operate at Layer 4 or Layer 7.",
+			"Sits in front of multiple backend servers to distribute incoming traffic and requests across them, preventing overload and keeping services responsive.",
 		developer:
 			"Load balancers affect source IP visibility, health checks, TLS termination, sticky sessions, retries, and timeout behavior.",
 		terminal: [
@@ -381,7 +381,7 @@ export const conceptContent: Record<string, ConceptContent> = {
 	},
 	"review-path": {
 		beginner:
-			"The review path connects the learning model into a real request: resolve a name, route packets, connect with TCP, secure with TLS, send HTTPS, and reach a backend.",
+			"Connects all individual concepts—from physical cables to DNS resolution and load balancers—into a single end-to-end data transmission journey.",
 		developer:
 			"When debugging, isolate the failing layer instead of treating the request as one opaque operation.",
 		terminal: [

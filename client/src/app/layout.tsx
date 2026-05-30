@@ -1,7 +1,7 @@
+import { Sidebar } from "@/components/Sidebar";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Sidebar } from "@/components/Sidebar";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -21,6 +21,9 @@ export const metadata: Metadata = {
 	},
 	description:
 		"Learn Ethernet, IP, DNS, TCP, TLS, HTTP, routing, firewalls, VPNs, and load balancers through interactive networking diagrams.",
+	icons: {
+		icon: "/logo.svg",
+	},
 	alternates: {
 		canonical: "/",
 	},

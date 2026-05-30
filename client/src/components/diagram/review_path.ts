@@ -157,30 +157,40 @@ export const reviewPathDiagram: DiagramDefinition = {
 	],
 	steps: [
 		{
-			label: "Resolve",
-			description: "The browser resolves a hostname to an IP address.",
-			activeNodes: ["client", "dns"],
-			activeEdges: ["e-dns"],
+			label: "L7–L5: Data & Session",
+			description: "The user issues an HTTPS request (L7). The browser formats the payload, encrypts it via TLS (L6), and establishes a session (L5) at the Client.",
+			activeNodes: ["client"],
+			activeEdges: [],
 		},
 		{
-			label: "Route out",
-			description:
-				"Packets leave the local subnet through the default gateway.",
-			activeNodes: ["client", "gateway", "internet"],
-			activeEdges: ["e-gw", "e-net"],
+			label: "L4–L2: Encapsulation",
+			description: "The payload is encapsulated into TCP segments (L4), wrapped in IP packets (L3) with source/destination IPs, and placed into Ethernet frames (L2) with MACs.",
+			activeNodes: ["client"],
+			activeEdges: [],
 		},
 		{
-			label: "Secure session",
-			description: "TCP connects, TLS negotiates keys, and HTTPS begins.",
-			activeNodes: ["internet", "tls"],
-			activeEdges: ["e-tls"],
+			label: "L1: Physical Transmission",
+			description: "The L2 frame is serialized into physical bits (electrical currents or radio waves at L1) and transmitted across the cable to the Default Gateway.",
+			activeNodes: ["client", "gateway"],
+			activeEdges: ["e-gw"],
 		},
 		{
-			label: "Serve request",
-			description:
-				"The load balancer selects a healthy backend to handle the request.",
+			label: "L1–L3: L3 Gateway Routing",
+			description: "The Gateway reads L1 bits, validates L2 MAC headers, decapsulates to the L3 IP layer to make a routing decision, and forwards the packet out to the Internet.",
+			activeNodes: ["gateway", "internet"],
+			activeEdges: ["e-net"],
+		},
+		{
+			label: "L4–L6: Secure Session Handover",
+			description: "Packets traverse the Internet to the Firewall/Load Balancer. The Load Balancer processes TCP ports (L4) and terminates TLS (L5/L6) to decrypt the HTTPS flow.",
+			activeNodes: ["internet", "tls", "lb"],
+			activeEdges: ["e-tls", "e-lb"],
+		},
+		{
+			label: "L7: Backend App Processing",
+			description: "The decrypted, raw application request (L7 HTTP payload) is dispatched to the backend web server for application processing and business logic execution.",
 			activeNodes: ["lb", "app"],
-			activeEdges: ["e-lb", "e-app"],
+			activeEdges: ["e-app"],
 		},
 	],
 };

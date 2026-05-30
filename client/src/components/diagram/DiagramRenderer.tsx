@@ -1,9 +1,12 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import type { DiagramStep } from "@/data/diagrams";
 import {
 	Background,
-	Controls,
 	ControlButton,
+	Controls,
 	type Edge,
 	type Node,
 	type NodeChange,
@@ -12,11 +15,8 @@ import {
 	useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { Play, RotateCcw, SkipBack, SkipForward, RefreshCw } from "lucide-react";
-import { useMemo, useState, useEffect, useCallback } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import type { DiagramStep } from "@/data/diagrams";
+import { ChevronLeft, ChevronRight, RotateCcw, RefreshCw } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { CustomEdge } from "./CustomEdge";
 import { CustomNode, type CustomNodeData } from "./CustomNode";
 
@@ -158,8 +158,8 @@ export function DiagramRenderer({
 			>
 				<Background color="var(--border)" gap={20} />
 				<Controls className="border bg-card shadow-level-2">
-					<ControlButton onClick={handleResetPositions} title="Reset node positions">
-						<RefreshCw className="h-4 w-4 text-foreground" />
+					<ControlButton onClick={handleResetPositions} title="Reset node positions" className="cursor-pointer">
+						<RefreshCw className="h-4 w-4 text-foreground cursor-pointer" />
 					</ControlButton>
 				</Controls>
 
@@ -181,32 +181,28 @@ export function DiagramRenderer({
 							{steps[currentStep].description}
 						</p>
 
-						<div className="flex items-center justify-center gap-4 pt-2">
-							<Button
-								type="button"
-								variant="ghost"
-								size="icon"
-								onClick={() => onStepChange(0)}
-								disabled={currentStep === 0}
-								title="Restart"
-							>
-								<RotateCcw />
-							</Button>
+						<div className="flex items-center justify-center gap-6 pt-2">
 							<Button
 								type="button"
 								variant="ghost"
 								size="icon"
 								onClick={() => onStepChange(Math.max(0, currentStep - 1))}
 								disabled={currentStep === 0}
+								className="cursor-pointer hover:bg-muted"
+								title="Previous Step"
 							>
-								<SkipBack />
+								<ChevronLeft className="h-5 w-5" />
 							</Button>
 							<Button
 								type="button"
-								size="icon-lg"
-								onClick={() => onStepChange((currentStep + 1) % steps.length)}
+								variant="ghost"
+								size="icon"
+								onClick={() => onStepChange(0)}
+								disabled={currentStep === 0}
+								className="cursor-pointer hover:bg-muted"
+								title="Restart Steps"
 							>
-								<Play className="fill-current" />
+								<RotateCcw className="h-4 w-4" />
 							</Button>
 							<Button
 								type="button"
@@ -216,8 +212,10 @@ export function DiagramRenderer({
 									onStepChange(Math.min(steps.length - 1, currentStep + 1))
 								}
 								disabled={currentStep === steps.length - 1}
+								className="cursor-pointer hover:bg-muted"
+								title="Next Step"
 							>
-								<SkipForward />
+								<ChevronRight className="h-5 w-5" />
 							</Button>
 						</div>
 					</Panel>

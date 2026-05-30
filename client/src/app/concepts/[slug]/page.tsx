@@ -166,9 +166,6 @@ export default function ConceptPage({
 									<Info className="text-muted-foreground" />
 									How it works.
 								</CardTitle>
-								<CardDescription>
-									The copy follows the selected explanation depth.
-								</CardDescription>
 							</CardHeader>
 							<CardContent className="flex flex-col gap-4 text-body-md text-muted-foreground">
 								{viewMode === "beginner" ? (
@@ -200,6 +197,24 @@ export default function ConceptPage({
 										</ul>
 									</>
 								)}
+							</CardContent>
+						</Card>
+
+						<Card className="shadow-level-2 bg-card/60">
+							<CardHeader className="pb-2">
+								<CardTitle className="text-display-sm">
+									Core Concept & Scope
+								</CardTitle>
+							</CardHeader>
+							<CardContent className="flex flex-col gap-4 text-body-md">
+								<div>
+									<h4 className="font-semibold text-foreground text-body-sm mb-1">Why do we need it?</h4>
+									<p className="text-muted-foreground">{concept.whyNeed}</p>
+								</div>
+								<div>
+									<h4 className="font-semibold text-body-sm mb-1 text-destructive/90 dark:text-destructive/80">Limitation / Scope</h4>
+									<p className="text-muted-foreground">{concept.limitation}</p>
+								</div>
 							</CardContent>
 						</Card>
 

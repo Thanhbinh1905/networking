@@ -3,14 +3,17 @@
 import {
 	Background,
 	Controls,
+	ControlButton,
 	type Edge,
 	type Node,
+	type NodeChange,
 	Panel,
 	ReactFlow,
+	useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { Play, RotateCcw, SkipBack, SkipForward } from "lucide-react";
-import { useMemo } from "react";
+import { Play, RotateCcw, SkipBack, SkipForward, RefreshCw } from "lucide-react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { DiagramStep } from "@/data/diagrams";
@@ -31,6 +34,7 @@ interface DiagramRendererProps {
 	steps?: DiagramStep[];
 	currentStep: number;
 	onStepChange: (step: number) => void;
+	slug?: string;
 }
 
 export function DiagramRenderer({
@@ -39,20 +43,91 @@ export function DiagramRenderer({
 	steps = [],
 	currentStep,
 	onStepChange,
+	slug,
 }: DiagramRendererProps) {
 	const step = steps[currentStep];
 
-	const nodes = useMemo(
-		() =>
+	const [nodePositions, setNodePositions] = useState<Record<string, { x: number; y: number }>>({});
+	const [nodes, setNodes, onNodesStateChange] = useNodesState<Node<CustomNodeData>>([]);
+
+	useEffect(() => {
+		let loadedPositions: Record<string, { x: number; y: number }> = {};
+		if (typeof window !== "undefined" && slug) {
+			const saved = localStorage.getItem(`diagram-positions-${slug}`);
+			if (saved) {
+				try {
+					loadedPositions = JSON.parse(saved);
+				} catch (e) {
+					console.error(e);
+				}
+			}
+		}
+		setNodePositions(loadedPositions);
+
+		setNodes(
 			initialNodes.map((node) => ({
+				...node,
+				position: loadedPositions[node.id] || node.position,
+				data: {
+					...node.data,
+					active: step?.activeNodes?.includes(node.id) || false,
+				},
+			}))
+		);
+	}, [slug, initialNodes]);
+
+	useEffect(() => {
+		setNodes((prevNodes) =>
+			prevNodes.map((node) => ({
 				...node,
 				data: {
 					...node.data,
 					active: step?.activeNodes?.includes(node.id) || false,
 				},
-			})),
-		[initialNodes, step],
+			}))
+		);
+	}, [step, setNodes]);
+
+	const onNodesChange = useCallback(
+		(changes: NodeChange<Node<CustomNodeData>>[]) => {
+			onNodesStateChange(changes);
+
+			setNodePositions((prev) => {
+				const next = { ...prev };
+				let changed = false;
+				for (const change of changes) {
+					if (change.type === "position" && change.position) {
+						next[change.id] = change.position;
+						changed = true;
+					}
+				}
+				if (changed) {
+					if (slug) {
+						localStorage.setItem(`diagram-positions-${slug}`, JSON.stringify(next));
+					}
+					return next;
+				}
+				return prev;
+			});
+		},
+		[onNodesStateChange, slug],
 	);
+
+	const handleResetPositions = useCallback(() => {
+		setNodePositions({});
+		if (slug) {
+			localStorage.removeItem(`diagram-positions-${slug}`);
+		}
+		setNodes((prevNodes) =>
+			prevNodes.map((node) => {
+				const initialNode = initialNodes.find((n) => n.id === node.id);
+				return {
+					...node,
+					position: initialNode ? initialNode.position : node.position,
+				};
+			})
+		);
+	}, [slug, initialNodes, setNodes]);
 
 	const edges = useMemo(
 		() =>
@@ -77,11 +152,16 @@ export function DiagramRenderer({
 				edges={edges}
 				nodeTypes={nodeTypes}
 				edgeTypes={edgeTypes}
+				onNodesChange={onNodesChange}
 				fitView
 				colorMode="light"
 			>
 				<Background color="var(--border)" gap={20} />
-				<Controls className="border bg-card shadow-level-2" />
+				<Controls className="border bg-card shadow-level-2">
+					<ControlButton onClick={handleResetPositions} title="Reset node positions">
+						<RefreshCw className="h-4 w-4 text-foreground" />
+					</ControlButton>
+				</Controls>
 
 				{steps.length > 0 && (
 					<Panel

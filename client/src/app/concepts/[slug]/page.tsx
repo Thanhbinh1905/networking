@@ -8,6 +8,7 @@ import {
 	CheckCircle2,
 	Code,
 	Info,
+	Layers,
 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -86,6 +87,9 @@ export default function ConceptPage({
 							<Badge variant="outline" className="font-mono">
 								{layer}
 							</Badge>
+							<Badge variant="outline" className="bg-primary/5 text-primary border-primary/20 font-mono">
+								{concept.osiLayer}
+							</Badge>
 						</div>
 						<div className="flex flex-col gap-2">
 							<h1 className="text-display-lg text-foreground">
@@ -150,6 +154,7 @@ export default function ConceptPage({
 						steps={diagram.steps}
 						currentStep={currentStep}
 						onStepChange={setCurrentStep}
+						slug={slug}
 					/>
 				</Card>
 
@@ -195,6 +200,21 @@ export default function ConceptPage({
 										</ul>
 									</>
 								)}
+							</CardContent>
+						</Card>
+
+						<Card className="border-l-4 border-l-primary bg-card shadow-level-2">
+							<CardHeader className="pb-3">
+								<CardTitle className="flex items-center gap-2 text-display-sm">
+									<Layers className="text-muted-foreground h-5 w-5" />
+									OSI Model Alignment
+								</CardTitle>
+								<CardDescription className="text-body-sm font-semibold text-foreground mt-1">
+									{concept.osiLayer}
+								</CardDescription>
+							</CardHeader>
+							<CardContent className="text-body-md text-muted-foreground">
+								{concept.osiExplanation}
 							</CardContent>
 						</Card>
 
@@ -251,6 +271,7 @@ export default function ConceptPage({
 								<Button
 									variant="ghost"
 									render={<Link href={`/concepts/${prevConcept.slug}`} />}
+									nativeButton={false}
 								>
 									<ArrowLeft data-icon="inline-start" />
 									{prevConcept.title}
@@ -262,6 +283,7 @@ export default function ConceptPage({
 								<Button
 									variant="ghost"
 									render={<Link href={`/concepts/${nextConcept.slug}`} />}
+									nativeButton={false}
 								>
 									{nextConcept.title}
 									<ArrowRight data-icon="inline-end" />

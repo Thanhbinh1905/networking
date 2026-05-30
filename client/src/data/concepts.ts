@@ -4,6 +4,8 @@ export type Concept = {
 	title: string;
 	summary: string;
 	order: number;
+	osiLayer: string;
+	osiExplanation: string;
 };
 
 export const concepts: Concept[] = [
@@ -13,6 +15,8 @@ export const concepts: Concept[] = [
 		slug: "ethernet",
 		title: "Ethernet",
 		summary: "Show frames moving between devices on a wired LAN.",
+		osiLayer: "Layer 1 & 2 (Physical / Data Link)",
+		osiExplanation: "Defines the physical cables, electrical signals (L1), formatting of data frames, MAC addressing, and collision detection (L2) on a wired network.",
 	},
 	{
 		order: 2,
@@ -20,6 +24,8 @@ export const concepts: Concept[] = [
 		slug: "wi-fi",
 		title: "Wi-Fi",
 		summary: "Show a wireless client communicating through an access point.",
+		osiLayer: "Layer 1 & 2 (Physical / Data Link)",
+		osiExplanation: "Uses radio waves (L1) to transmit frames, managing wireless medium access control (MAC) and encryption (L2).",
 	},
 	{
 		order: 3,
@@ -27,6 +33,8 @@ export const concepts: Concept[] = [
 		slug: "mac-address",
 		title: "MAC Address",
 		summary: "Show two PCs with MAC addresses communicating through a switch.",
+		osiLayer: "Layer 2 (Data Link)",
+		osiExplanation: "A unique physical identifier burned into network interfaces, used to route packets within the same local network segment.",
 	},
 	{
 		order: 4,
@@ -34,14 +42,17 @@ export const concepts: Concept[] = [
 		slug: "switch",
 		title: "Switch",
 		summary: "Show MAC learning and frame forwarding inside a LAN.",
+		osiLayer: "Layer 2 (Data Link)",
+		osiExplanation: "Inspects incoming MAC addresses to learn host locations and forwards local ethernet frames selectively to their destinations.",
 	},
 	{
 		order: 5,
 		id: "ip-address",
 		slug: "ip-address",
 		title: "IP Address",
-		summary:
-			"Show devices using IP addresses to identify source and destination hosts.",
+		summary: "Show devices using IP addresses to identify source and destination hosts.",
+		osiLayer: "Layer 3 (Network)",
+		osiExplanation: "Logical logical addressing scheme used to uniquely identify and route data packets across different networks globally.",
 	},
 	{
 		order: 6,
@@ -49,14 +60,17 @@ export const concepts: Concept[] = [
 		slug: "static-ip",
 		title: "Static IP",
 		summary: "Show a device manually configured with fixed IP settings.",
+		osiLayer: "Layer 3 (Network)",
+		osiExplanation: "A manually assigned, persistent IP address configuration that ensures consistent L3 network identity.",
 	},
 	{
 		order: 7,
 		id: "dhcp",
 		slug: "dhcp",
 		title: "DHCP",
-		summary:
-			"Show Discover, Offer, Request, Acknowledge between client and DHCP server.",
+		summary: "Show Discover, Offer, Request, Acknowledge between client and DHCP server.",
+		osiLayer: "Layer 7 (Application)",
+		osiExplanation: "An application protocol (encapsulated in UDP at L4) that dynamically assigns L3 IP configurations to hosts.",
 	},
 	{
 		order: 8,
@@ -64,6 +78,8 @@ export const concepts: Concept[] = [
 		slug: "subnet",
 		title: "Subnet",
 		summary: "Show which devices are inside or outside the same network range.",
+		osiLayer: "Layer 3 (Network)",
+		osiExplanation: "A logical subdivision of an IP network that defines local broadcast boundaries and routes traffic inside or outside the local network.",
 	},
 	{
 		order: 9,
@@ -71,6 +87,8 @@ export const concepts: Concept[] = [
 		slug: "router",
 		title: "Router",
 		summary: "Show traffic crossing from one subnet to another.",
+		osiLayer: "Layer 3 (Network)",
+		osiExplanation: "Reads destination IP addresses and forwards packets between different subnets/networks using routing tables.",
 	},
 	{
 		order: 10,
@@ -78,6 +96,8 @@ export const concepts: Concept[] = [
 		slug: "default-gateway",
 		title: "Default Gateway",
 		summary: "Show a host sending non-local traffic to its gateway.",
+		osiLayer: "Layer 3 (Network)",
+		osiExplanation: "The IP routing point (typically a router) that hosts use to forward packets destinating outside their local subnet.",
 	},
 	{
 		order: 11,
@@ -85,6 +105,8 @@ export const concepts: Concept[] = [
 		slug: "routes",
 		title: "Routes",
 		summary: "Show route table decision-making for multiple destinations.",
+		osiLayer: "Layer 3 (Network)",
+		osiExplanation: "Paths and rules defined in routing tables that dictate how IP packets are forwarded step-by-step across networks.",
 	},
 	{
 		order: 12,
@@ -92,14 +114,17 @@ export const concepts: Concept[] = [
 		slug: "static-routing",
 		title: "Static Routing",
 		summary: "Show manually configured routes between routers.",
+		osiLayer: "Layer 3 (Network)",
+		osiExplanation: "Manually entered routes in a routing table that do not dynamically update, determining hard-coded paths between networks.",
 	},
 	{
 		order: 13,
 		id: "ospf",
 		slug: "ospf",
 		title: "OSPF",
-		summary:
-			"Show routers sharing link-state information and choosing shortest paths.",
+		summary: "Show routers sharing link-state information and choosing shortest paths.",
+		osiLayer: "Layer 3 (Network)",
+		osiExplanation: "A link-state routing protocol operating at L3 to dynamically discover network topologies and calculate the shortest paths.",
 	},
 	{
 		order: 14,
@@ -107,6 +132,8 @@ export const concepts: Concept[] = [
 		slug: "bgp",
 		title: "BGP",
 		summary: "Show autonomous systems exchanging routes across the internet.",
+		osiLayer: "Layer 3 & 7 (Network / Application)",
+		osiExplanation: "The core routing protocol of the internet (Network Layer control plane), which exchanges routing paths via TCP connections (Application Layer).",
 	},
 	{
 		order: 15,
@@ -114,6 +141,8 @@ export const concepts: Concept[] = [
 		slug: "ping",
 		title: "Ping",
 		summary: "Show request and reply flow between two hosts.",
+		osiLayer: "Layer 3 (Network)",
+		osiExplanation: "A network tool using ICMP Echo requests and replies at the Network Layer to diagnose connectivity and latency.",
 	},
 	{
 		order: 16,
@@ -121,6 +150,8 @@ export const concepts: Concept[] = [
 		slug: "icmp",
 		title: "ICMP",
 		summary: "Show ICMP messages used for diagnostics and network control.",
+		osiLayer: "Layer 3 (Network)",
+		osiExplanation: "A supporting protocol in the IP suite used by network devices to send error messages and operational information.",
 	},
 	{
 		order: 17,
@@ -128,6 +159,8 @@ export const concepts: Concept[] = [
 		slug: "tcp",
 		title: "TCP",
 		summary: "Show connection setup, reliable delivery, and teardown.",
+		osiLayer: "Layer 4 (Transport)",
+		osiExplanation: "Provides reliable, ordered, error-checked delivery of a stream of bytes between host applications using connection handshake and flow control.",
 	},
 	{
 		order: 18,
@@ -135,14 +168,17 @@ export const concepts: Concept[] = [
 		slug: "udp",
 		title: "UDP",
 		summary: "Show connectionless datagrams between client and server.",
+		osiLayer: "Layer 4 (Transport)",
+		osiExplanation: "A simple, connectionless transport protocol that sends independent packets (datagrams) without handshakes or delivery guarantees.",
 	},
 	{
 		order: 19,
 		id: "ports",
 		slug: "ports",
 		title: "Ports",
-		summary:
-			"Show one IP address hosting multiple services through different ports.",
+		summary: "Show one IP address hosting multiple services through different ports.",
+		osiLayer: "Layer 4 (Transport)",
+		osiExplanation: "Addressing identifiers at the Transport Layer that direct incoming traffic to specific services or application processes on a host.",
 	},
 	{
 		order: 20,
@@ -150,6 +186,8 @@ export const concepts: Concept[] = [
 		slug: "firewall",
 		title: "Firewall",
 		summary: "Show allowed and blocked flows based on rules.",
+		osiLayer: "Layer 3, 4 & 7 (Network / Transport / Application)",
+		osiExplanation: "Filters traffic based on IP addresses (L3), TCP/UDP ports (L4), or deep packet application payloads (L7).",
 	},
 	{
 		order: 21,
@@ -157,30 +195,35 @@ export const concepts: Concept[] = [
 		slug: "tls",
 		title: "TLS",
 		summary: "Show encrypted session establishment over an existing transport.",
+		osiLayer: "Layer 5 & 6 (Session / Presentation)",
+		osiExplanation: "Secures communications by negotiating cryptographic keys (Session) and encrypting/decrypting data formats for application consumption (Presentation).",
 	},
 	{
 		order: 22,
 		id: "ssl",
 		slug: "ssl",
 		title: "SSL",
-		summary:
-			"Explain SSL as legacy terminology and contrast it with modern TLS.",
+		summary: "Explain SSL as legacy terminology and contrast it with modern TLS.",
+		osiLayer: "Layer 5 & 6 (Session / Presentation)",
+		osiExplanation: "The legacy predecessor to TLS, historically handling cryptographic formatting and session handshakes.",
 	},
 	{
 		order: 23,
 		id: "vpn",
 		slug: "vpn",
 		title: "VPN",
-		summary:
-			"Show encrypted tunnel traffic between client and private network.",
+		summary: "Show encrypted tunnel traffic between client and private network.",
+		osiLayer: "Layer 3 & 4 (Network / Transport)",
+		osiExplanation: "Establishes secure, encrypted virtual connections using Network Layer tunneling (IPsec) or Transport Layer streams (OpenVPN/TLS).",
 	},
 	{
 		order: 24,
 		id: "dns",
 		slug: "dns",
 		title: "DNS",
-		summary:
-			"Show domain name lookup through resolver and authoritative servers.",
+		summary: "Show domain name lookup through resolver and authoritative servers.",
+		osiLayer: "Layer 7 (Application)",
+		osiExplanation: "Translates human-readable domain names into machine-readable IP addresses using client-server requests.",
 	},
 	{
 		order: 25,
@@ -188,6 +231,8 @@ export const concepts: Concept[] = [
 		slug: "http",
 		title: "HTTP",
 		summary: "Show request and response between browser/client and server.",
+		osiLayer: "Layer 7 (Application)",
+		osiExplanation: "The foundational protocol for data exchange on the web, enabling transfer of HTML pages, APIs, and media between clients and servers.",
 	},
 	{
 		order: 26,
@@ -195,14 +240,17 @@ export const concepts: Concept[] = [
 		slug: "https",
 		title: "HTTPS",
 		summary: "Show HTTP over TLS, including encrypted request/response.",
+		osiLayer: "Layer 7 (Application)",
+		osiExplanation: "Encapsulates HTTP request/response exchanges within a secure, encrypted TLS/SSL session.",
 	},
 	{
 		order: 27,
 		id: "load-balancer",
 		slug: "load-balancer",
 		title: "Load Balancer",
-		summary:
-			"Show traffic distributed from one entry point to multiple backend servers.",
+		summary: "Show traffic distributed from one entry point to multiple backend servers.",
+		osiLayer: "Layer 4 & 7 (Transport / Application)",
+		osiExplanation: "Distributes traffic by reading either raw L4 connections (TCP/UDP ports) or application-specific attributes (L7 HTTP headers and cookies).",
 	},
 	{
 		order: 28,
@@ -210,5 +258,7 @@ export const concepts: Concept[] = [
 		slug: "review-path",
 		title: "Review Path",
 		summary: "Connect all concepts into an end-to-end request journey.",
+		osiLayer: "Layers 1–7 (Full Stack)",
+		osiExplanation: "Visualizes an end-to-end client-server interaction, touching every layer of the OSI model from physical cables up to application software.",
 	},
 ];

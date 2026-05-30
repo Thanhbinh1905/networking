@@ -31,6 +31,22 @@ npm run dev
 
 Open `http://localhost:3000` and go to `/concepts`.
 
+## Docker Compose
+
+Run the app in a containerized development environment from the repository root:
+
+```bash
+docker compose up --build
+```
+
+If port `3000` is already in use, choose another host port:
+
+```bash
+APP_PORT=3001 docker compose up --build
+```
+
+The compose setup mounts `client/` into the container for hot reload and keeps `node_modules` plus `.next` in Docker volumes.
+
 ## Scripts
 
 ```bash

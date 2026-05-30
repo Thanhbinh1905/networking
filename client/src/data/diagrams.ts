@@ -1,4 +1,5 @@
 import { bgpDiagram } from "@/components/diagram/bgp";
+import { cdnDiagram } from "@/components/diagram/cdn";
 import { defaultGatewayDiagram } from "@/components/diagram/default_gateway";
 import { dhcpDiagram } from "@/components/diagram/dhcp";
 import { dnsDiagram } from "@/components/diagram/dns";
@@ -10,9 +11,12 @@ import { icmpDiagram } from "@/components/diagram/icmp";
 import { ipAddressDiagram } from "@/components/diagram/ip_address";
 import { loadBalancerDiagram } from "@/components/diagram/load_balancer";
 import { macAddressDiagram } from "@/components/diagram/mac_address";
+import { natDiagram } from "@/components/diagram/nat";
 import { ospfDiagram } from "@/components/diagram/ospf";
 import { pingDiagram } from "@/components/diagram/ping";
 import { portsDiagram } from "@/components/diagram/ports";
+import { proxyDiagram } from "@/components/diagram/proxy";
+import { reverseProxyDiagram } from "@/components/diagram/reverse_proxy";
 import { reviewPathDiagram } from "@/components/diagram/review_path";
 import { routerDiagram } from "@/components/diagram/router";
 import { routesDiagram } from "@/components/diagram/routes";
@@ -61,6 +65,10 @@ export const diagrams: Record<string, DiagramDefinition> = {
 	http: httpDiagram,
 	https: httpsDiagram,
 	"load-balancer": loadBalancerDiagram,
+	nat: natDiagram,
+	proxy: proxyDiagram,
+	"reverse-proxy": reverseProxyDiagram,
+	cdn: cdnDiagram,
 	"review-path": reviewPathDiagram,
 };
 

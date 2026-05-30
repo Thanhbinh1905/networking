@@ -68,11 +68,12 @@ export default function ConceptPage({
 		currentIndex < concepts.length - 1 ? concepts[currentIndex + 1] : null;
 
 	const layer =
-		concept.order <= 4
+		concept.layer ??
+		(concept.order <= 4
 			? "Link Layer (L2)"
 			: concept.order <= 14
 				? "Network Layer (L3)"
-				: "Transport/App Layer";
+				: "Transport/App Layer");
 
 	return (
 		<div className="flex h-full flex-col bg-background">

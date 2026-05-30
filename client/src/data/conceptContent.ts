@@ -379,6 +379,71 @@ export const conceptContent: Record<string, ConceptContent> = {
 			"Preserve client IP with headers or proxy protocol when the app needs it.",
 		],
 	},
+	nat: {
+		beginner:
+			"NAT translates private addresses to a public address so many internal devices can reach external networks through one gateway.",
+		developer:
+			"NAT bugs often involve missing translation state, asymmetric routing, port exhaustion, overlapping private ranges, or port forwarding rules pointing to the wrong host.",
+		terminal: [
+			"ip addr show",
+			"ip route",
+			"curl ifconfig.me",
+			"sudo conntrack -L | grep tcp",
+		],
+		tips: [
+			"NAT changes packet addresses; it is not the same thing as a firewall.",
+			"Return traffic depends on translation state created by the outbound flow.",
+			"Port forwarding is inbound NAT from a public address to a private service.",
+		],
+	},
+	proxy: {
+		beginner:
+			"A forward proxy sits on the client side. The client deliberately sends requests to the proxy, and the proxy reaches the destination on the client's behalf.",
+		developer:
+			"Forward proxies appear in corporate networks, package managers, CI systems, and restricted environments where outbound access needs authentication, logging, filtering, or caching.",
+		terminal: [
+			"env | grep -i proxy",
+			"curl -x http://proxy.local:8080 https://example.com",
+			"curl -v --proxy http://proxy.local:8080 http://example.com",
+		],
+		tips: [
+			"A forward proxy is configured by the client or client environment.",
+			"HTTPS through an HTTP proxy usually uses the CONNECT method.",
+			"DNS may be resolved by the client or the proxy depending on protocol and configuration.",
+		],
+	},
+	"reverse-proxy": {
+		beginner:
+			"A reverse proxy sits in front of servers. Clients connect to the proxy, and the proxy routes each request to an internal backend.",
+		developer:
+			"Reverse proxies commonly handle TLS termination, host and path routing, header normalization, request buffering, compression, and source IP forwarding.",
+		terminal: [
+			"curl -v https://app.example.com",
+			'curl -H "Host: app.example.com" http://203.0.113.10',
+			"curl -I https://app.example.com",
+		],
+		tips: [
+			"A reverse proxy is chosen by the service operator, not by the end user.",
+			"Backends often need X-Forwarded-For and X-Forwarded-Proto to reconstruct the original request.",
+			"TLS can terminate at the proxy while backend traffic uses HTTP or private TLS.",
+		],
+	},
+	cdn: {
+		beginner:
+			"A CDN serves content from edge locations near users. If the edge has a fresh cached copy, it responds without contacting the origin server.",
+		developer:
+			"CDN debugging usually means checking DNS, cache status, Cache-Control, Age, Vary, ETag, purge behavior, and whether requests unexpectedly bypass the edge.",
+		terminal: [
+			"dig cdn.example.com",
+			"curl -I https://cdn.example.com/app.js",
+			'curl -H "Cache-Control: no-cache" -I https://cdn.example.com/app.js',
+		],
+		tips: [
+			"A CDN is often a reverse proxy cache distributed across many edge locations.",
+			"Cache-Control, Vary, ETag, and TTL decide whether content can be reused.",
+			"Do not cache personalized or sensitive responses unless the cache key is correct.",
+		],
+	},
 	"review-path": {
 		beginner:
 			"The review path connects the learning model into a real request: resolve a name, route packets, connect with TCP, secure with TLS, send HTTPS, and reach a backend.",

@@ -1,6 +1,13 @@
 "use client";
 
-import { Bookmark, CheckCircle2, Circle, GitBranch, Route } from "lucide-react";
+import {
+	Bookmark,
+	Building2,
+	CheckCircle2,
+	Circle,
+	GitBranch,
+	Route,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -71,6 +78,18 @@ export function Sidebar() {
 				>
 					<GitBranch className="shrink-0" />
 					Dependency Map
+				</Link>
+				<Link
+					href="/business-network"
+					className={cn(
+						"flex items-center gap-2 rounded-md px-3 py-2 text-body-sm transition-colors",
+						pathname === "/business-network"
+							? "bg-sidebar-accent text-sidebar-accent-foreground"
+							: "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+					)}
+				>
+					<Building2 className="shrink-0" />
+					Business Network
 				</Link>
 				<div className="flex items-center justify-between px-3 pb-2 pt-5">
 					<p className="text-caption-mono text-muted-foreground">Concepts</p>

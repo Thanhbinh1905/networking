@@ -87,7 +87,10 @@ export default function ConceptPage({
 							<Badge variant="outline" className="font-mono">
 								{layer}
 							</Badge>
-							<Badge variant="outline" className="bg-primary/5 text-primary border-primary/20 font-mono">
+							<Badge
+								variant="outline"
+								className="bg-primary/5 text-primary border-primary/20 font-mono"
+							>
 								{concept.osiLayer}
 							</Badge>
 						</div>
@@ -208,11 +211,15 @@ export default function ConceptPage({
 							</CardHeader>
 							<CardContent className="flex flex-col gap-4 text-body-md">
 								<div>
-									<h4 className="font-semibold text-foreground text-body-sm mb-1">Why do we need it?</h4>
+									<h4 className="font-semibold text-foreground text-body-sm mb-1">
+										Why do we need it?
+									</h4>
 									<p className="text-muted-foreground">{concept.whyNeed}</p>
 								</div>
 								<div>
-									<h4 className="font-semibold text-body-sm mb-1 text-destructive/90 dark:text-destructive/80">Limitation / Scope</h4>
+									<h4 className="font-semibold text-body-sm mb-1 text-destructive/90 dark:text-destructive/80">
+										Limitation / Scope
+									</h4>
 									<p className="text-muted-foreground">{concept.limitation}</p>
 								</div>
 							</CardContent>

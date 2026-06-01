@@ -1,8 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import type { DiagramStep } from "@/data/diagrams";
 import {
 	Background,
 	ControlButton,
@@ -14,8 +11,11 @@ import {
 	ReactFlow,
 	useNodesState,
 } from "@xyflow/react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import type { DiagramStep } from "@/data/diagrams";
 import "@xyflow/react/dist/style.css";
-import { ChevronLeft, ChevronRight, RotateCcw, RefreshCw } from "lucide-react";
+import { ChevronLeft, ChevronRight, RefreshCw, RotateCcw } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CustomEdge } from "./CustomEdge";
 import { CustomNode, type CustomNodeData } from "./CustomNode";
@@ -47,8 +47,12 @@ export function DiagramRenderer({
 }: DiagramRendererProps) {
 	const step = steps[currentStep];
 
-	const [nodePositions, setNodePositions] = useState<Record<string, { x: number; y: number }>>({});
-	const [nodes, setNodes, onNodesStateChange] = useNodesState<Node<CustomNodeData>>([]);
+	const [, setNodePositions] = useState<
+		Record<string, { x: number; y: number }>
+	>({});
+	const [nodes, setNodes, onNodesStateChange] = useNodesState<
+		Node<CustomNodeData>
+	>([]);
 
 	useEffect(() => {
 		let loadedPositions: Record<string, { x: number; y: number }> = {};
@@ -70,11 +74,11 @@ export function DiagramRenderer({
 				position: loadedPositions[node.id] || node.position,
 				data: {
 					...node.data,
-					active: step?.activeNodes?.includes(node.id) || false,
+					active: false,
 				},
-			}))
+			})),
 		);
-	}, [slug, initialNodes]);
+	}, [slug, initialNodes, setNodes]);
 
 	useEffect(() => {
 		setNodes((prevNodes) =>
@@ -84,7 +88,7 @@ export function DiagramRenderer({
 					...node.data,
 					active: step?.activeNodes?.includes(node.id) || false,
 				},
-			}))
+			})),
 		);
 	}, [step, setNodes]);
 
@@ -103,7 +107,10 @@ export function DiagramRenderer({
 				}
 				if (changed) {
 					if (slug) {
-						localStorage.setItem(`diagram-positions-${slug}`, JSON.stringify(next));
+						localStorage.setItem(
+							`diagram-positions-${slug}`,
+							JSON.stringify(next),
+						);
 					}
 					return next;
 				}
@@ -125,7 +132,7 @@ export function DiagramRenderer({
 					...node,
 					position: initialNode ? initialNode.position : node.position,
 				};
-			})
+			}),
 		);
 	}, [slug, initialNodes, setNodes]);
 
@@ -158,7 +165,11 @@ export function DiagramRenderer({
 			>
 				<Background color="var(--border)" gap={20} />
 				<Controls className="border bg-card shadow-level-2">
-					<ControlButton onClick={handleResetPositions} title="Reset node positions" className="cursor-pointer">
+					<ControlButton
+						onClick={handleResetPositions}
+						title="Reset node positions"
+						className="cursor-pointer"
+					>
 						<RefreshCw className="h-4 w-4 text-foreground cursor-pointer" />
 					</ControlButton>
 				</Controls>

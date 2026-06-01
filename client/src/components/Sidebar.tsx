@@ -1,6 +1,7 @@
 "use client";
 
-import { Bookmark, CheckCircle2, Circle } from "lucide-react";
+import { Bookmark, CheckCircle2, Circle, GitBranch, Route } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -18,7 +19,13 @@ export function Sidebar() {
 		<aside className="flex h-screen w-72 flex-col border-r bg-sidebar text-sidebar-foreground">
 			<div className="flex h-16 items-center gap-3 px-6">
 				<div className="flex size-8 items-center justify-center rounded-md border bg-card p-1 shadow-hairline">
-					<img src="/logo.svg" className="h-full w-full object-contain" alt="Logo" />
+					<Image
+						src="/logo.svg"
+						width={24}
+						height={24}
+						className="h-full w-full object-contain"
+						alt="Logo"
+					/>
 				</div>
 				<div className="min-w-0">
 					<h1 className="truncate text-body-sm font-medium">
@@ -32,13 +39,38 @@ export function Sidebar() {
 				<Link
 					href="/concepts"
 					className={cn(
-						"rounded-md px-3 py-2 text-body-sm transition-colors",
+						"flex items-center gap-2 rounded-md px-3 py-2 text-body-sm transition-colors",
 						pathname === "/concepts"
 							? "bg-sidebar-accent text-sidebar-accent-foreground"
 							: "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
 					)}
 				>
+					<Circle className="shrink-0" />
 					Overview
+				</Link>
+				<Link
+					href="/journeys"
+					className={cn(
+						"flex items-center gap-2 rounded-md px-3 py-2 text-body-sm transition-colors",
+						pathname === "/journeys"
+							? "bg-sidebar-accent text-sidebar-accent-foreground"
+							: "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+					)}
+				>
+					<Route className="shrink-0" />
+					Journey Mode
+				</Link>
+				<Link
+					href="/dependency-map"
+					className={cn(
+						"flex items-center gap-2 rounded-md px-3 py-2 text-body-sm transition-colors",
+						pathname === "/dependency-map"
+							? "bg-sidebar-accent text-sidebar-accent-foreground"
+							: "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+					)}
+				>
+					<GitBranch className="shrink-0" />
+					Dependency Map
 				</Link>
 				<div className="flex items-center justify-between px-3 pb-2 pt-5">
 					<p className="text-caption-mono text-muted-foreground">Concepts</p>

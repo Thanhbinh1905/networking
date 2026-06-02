@@ -3,6 +3,7 @@ export type Concept = {
 	slug: string;
 	title: string;
 	summary: string;
+	layer?: string;
 	order: number;
 	osiLayer: string;
 	osiExplanation: string;
@@ -398,6 +399,42 @@ export const concepts: Concept[] = [
 	},
 	{
 		order: 28,
+		id: "nat",
+		slug: "nat",
+		title: "NAT",
+		summary:
+			"Show private addresses translated to a public address for internet access.",
+		layer: "Network/Transport Boundary",
+	},
+	{
+		order: 29,
+		id: "proxy",
+		slug: "proxy",
+		title: "Proxy",
+		summary:
+			"Show a forward proxy making outbound requests on behalf of a client.",
+		layer: "Application Layer",
+	},
+	{
+		order: 30,
+		id: "reverse-proxy",
+		slug: "reverse-proxy",
+		title: "Reverse Proxy",
+		summary:
+			"Show a public entry point routing HTTP requests to internal backends.",
+		layer: "Application/Edge",
+	},
+	{
+		order: 31,
+		id: "cdn",
+		slug: "cdn",
+		title: "CDN",
+		summary:
+			"Show edge cache serving users near them and fetching from origin on misses.",
+		layer: "Edge Delivery",
+	},
+	{
+		order: 32,
 		id: "review-path",
 		slug: "review-path",
 		title: "Review Path",

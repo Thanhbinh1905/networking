@@ -106,7 +106,7 @@ export default function Image() {
 						color: "#4d4d4d",
 					}}
 				>
-					<span>28 concepts</span>
+					<span>32 concepts</span>
 					<span>•</span>
 					<span>Step-by-step packet flows</span>
 					<span>•</span>

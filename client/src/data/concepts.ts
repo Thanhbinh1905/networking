@@ -405,6 +405,13 @@ export const concepts: Concept[] = [
 		summary:
 			"Show private addresses translated to a public address for internet access.",
 		layer: "Network/Transport Boundary",
+		osiLayer: "Layer 3 & 4 (Network / Transport)",
+		osiExplanation:
+			"Rewrites IP addresses and often transport ports so private hosts can share public connectivity or receive forwarded traffic.",
+		whyNeed:
+			"Lets many private devices access external networks through fewer public IP addresses.",
+		limitation:
+			"Can complicate inbound connectivity, peer-to-peer traffic, logging, and troubleshooting.",
 	},
 	{
 		order: 29,
@@ -414,6 +421,13 @@ export const concepts: Concept[] = [
 		summary:
 			"Show a forward proxy making outbound requests on behalf of a client.",
 		layer: "Application Layer",
+		osiLayer: "Layer 7 (Application)",
+		osiExplanation:
+			"Acts as an application-aware intermediary that receives client requests and makes outbound requests on the client's behalf.",
+		whyNeed:
+			"Adds centralized outbound control, authentication, filtering, logging, or caching for client traffic.",
+		limitation:
+			"Misconfigured proxy settings can break DNS, TLS, authentication, or application connectivity.",
 	},
 	{
 		order: 30,
@@ -423,6 +437,13 @@ export const concepts: Concept[] = [
 		summary:
 			"Show a public entry point routing HTTP requests to internal backends.",
 		layer: "Application/Edge",
+		osiLayer: "Layer 7 (Application)",
+		osiExplanation:
+			"Terminates or forwards application requests in front of servers, often routing by host, path, headers, or protocol.",
+		whyNeed:
+			"Provides one public entry point for many backend services while handling routing, TLS, and headers.",
+		limitation:
+			"Can hide client details or introduce routing and timeout bugs if headers and upstream rules are wrong.",
 	},
 	{
 		order: 31,
@@ -432,6 +453,13 @@ export const concepts: Concept[] = [
 		summary:
 			"Show edge cache serving users near them and fetching from origin on misses.",
 		layer: "Edge Delivery",
+		osiLayer: "Layer 7 (Application / Edge)",
+		osiExplanation:
+			"Serves application content from distributed edge caches and fetches from the origin when cached content is missing or stale.",
+		whyNeed:
+			"Reduces latency and origin load by serving cacheable content closer to users.",
+		limitation:
+			"Incorrect cache keys or TTLs can serve stale, personalized, or sensitive content to the wrong users.",
 	},
 	{
 		order: 32,
